@@ -23,7 +23,7 @@ const getMenuList = (routesList) => {
 					if (childItem.meta && !item.meta.hiddenMenu && childItem.meta.icon && childItem.meta.title && childItem.path) {
 						sider.name = childItem.meta.title;
 						sider.icon = childItem.meta.icon;
-						sider.path = item.path + '/' + childItem.path;
+						sider.path = item.redirect;
 					}
 				} else {
 					let childrenSider = getMenuList(item.children);
