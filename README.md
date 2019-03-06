@@ -53,7 +53,7 @@ not-async-admin@0.2 链接： https://share.weiyun.com/5ioodcD （密码：VZ8n�
 #### Getting started
 ```
 # clone the project
-git clone https://gitee.com/xiaochiwz/thinkphp5.1-vue-ivew-admin.git  
+git clone https://github.com/chichengyu/thinkphp5.1-vue-ivew-admin.git
 
 # install dependency
 composer install  
