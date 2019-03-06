@@ -9,7 +9,7 @@ const getMenuList = (routesList) => {
 			 icon:'',
 			 path:'',
 		 };
-		if (item.meta && !item.meta.hiddenMenu){
+		if (item.meta && item.meta.hiddenMenu===false){
 			if (item.meta.icon && item.meta.title && item.path){
 				sider.name = item.meta.title;
 				sider.icon = item.meta.icon;
@@ -18,9 +18,9 @@ const getMenuList = (routesList) => {
 			// 判断是否有子级
 			let childItem = item.children;
 			if (childItem) {
-				if (childItem.length == 1 && childItem[0].path == 'index'){
+				if (childItem.length == 1 && childItem[0].path === 'index'){
 					childItem = childItem[0];
-					if (childItem.meta && !item.meta.hiddenMenu && childItem.meta.icon && childItem.meta.title && childItem.path) {
+					if (childItem.meta && childItem.meta.icon && childItem.meta.title && childItem.path) {
 						sider.name = childItem.meta.title;
 						sider.icon = childItem.meta.icon;
 						sider.path = item.redirect;

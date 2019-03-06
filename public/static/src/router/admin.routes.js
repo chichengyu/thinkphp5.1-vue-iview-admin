@@ -1,7 +1,7 @@
 import Layout from '@/views/admin/index.vue'
 
 /**
- * 	hiddenMenu: boolean 是否隐藏该菜单
+ * 	hiddenMenu: boolean 是否隐藏该菜单 true 隐藏/ false不隐藏
  *  rules:['admin','editor'], admin / editor 两个角色（用户组）可以访问该菜单
  *  一级菜单的话 ，只需要在 chilren 里的 path='index 即可，二级菜单就不用
  *
@@ -28,7 +28,6 @@ const routes = [
 			{
 				path:'index',
 				meta:{
-					hiddenMenu:false,
 					title:'首页',
 					icon:'md-home',
 				},
@@ -45,24 +44,10 @@ const routes = [
 			{
 				path:'index',
 				meta:{
-					hiddenMenu:false,
 					title:'角色',
 					icon:'md-contacts',
 				},
 				component: () => import(/* webpackChunkName: "role" */ '@/views/admin/components/rolue/index.vue')
-			}
-		]
-	},
-	{
-		path:'/401',
-		component: Layout,
-		redirect:'/401/index',
-		meta:{hiddenMenu:true},
-		children:[
-			{
-				path:'index',
-				meta:{hiddenMenu:true},
-				component: () => import(/* webpackChunkName: "401" */ '@/views/401.vue')
 			}
 		]
 	},
@@ -94,6 +79,30 @@ const routes = [
 				component: () => import(/* webpackChunkName: "404" */ '@/views/404.vue')
 			}
 		]
+	},
+	{
+		path:'/401',
+		component: Layout,
+		redirect:'/401/index',
+		meta:{hiddenMenu:true},
+		children:[
+			{
+				path:'index',
+				component: () => import(/* webpackChunkName: "401" */ '@/views/401.vue')
+			}
+		]
+	},
+	{
+		path:'/404',
+		component: Layout,
+		redirect:'/404/index',
+		meta:{hiddenMenu:true},
+		children:[
+			{
+				path:'index',
+				component: () => import(/* webpackChunkName: "404" */ '@/views/404.vue')
+			}
+		]
 	}
 ]
 
@@ -110,8 +119,7 @@ const routesMap = [
 				meta:{
 					title:'图标',
 					icon:'logo-facebook',
-					rules:['admin'],
-					hiddenMenu:false
+					rules:['admin']
 				},
 				component: () => import(/* webpackChunkName: "icons" */ '@/views/admin/components/icons/icons.vue')
 			}
@@ -205,7 +213,8 @@ const routesMap = [
 			},
 		]
 	},
-	{path:'*',redirect:'/errorpages/404',meta:{hiddenMenu:true}}
+	{path:'*',redirect:'/404/index',meta:{hiddenMenu:true}}
+
 ]
 
 export {routesMap,routes}
