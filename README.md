@@ -6,7 +6,7 @@
 
 另外这里在提供一个版本，项目跟这个项目是一模一样的，唯一不同的就是，打包出的文件不是异步加载，只有三个文件，bundle.js、index.html、images。  
 not-async-admin@0.1 链接: https://pan.baidu.com/s/1G7qsn8ouE3eOksxO7R7dwA 提取码: hq4d  
-not-async-admin@0.2 链接： https://share.weiyun.com/5Se7Tm6 （密码：VPMC）    
+not-async-admin@0.2 链接： https://share.weiyun.com/5ioodcD （密码：VZ8n）    
 0.1是整改前的，0.2是整改后的
 
 
