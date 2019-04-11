@@ -56,7 +56,7 @@ not-async-admin@0.2 链接： https://share.weiyun.com/5ioodcD （密码：VZ8n�
 git clone https://github.com/chichengyu/thinkphp5.1-vue-ivew-admin.git
 
 # install dependency
-composer install   + [错误解决](https://beltxman.com/archives/1620.html)
+composer install
 
 # install dependency
 npm install
@@ -69,7 +69,9 @@ npm run build
 
 # watch
 npm run watch
-```
+```  
++ [composer install错误解决](https://beltxman.com/archives/1620.html) 
+  
 注意：安装完成后，先把 public/prieview 整个目录删除，这个只是用于在这里预览而已。另外，值得注意一下的是，在执行 ```npm run watch```与```npm run build```之前，必须先执行 ```npm run build:dll```，这样后面打包时的速度会快很多。预编译资源模块：```webpack.dll.config.js```就是预编译模块的配置文件，想要使用预编译资源功能就需要```webpack.dll.config.js```的```entry ```的配置项``` vendor```中加入路径。如：axios(我这里是 npm install axios，所以就是默认找 node_modules 文件夹)  
 
     vendor: [
