@@ -119,7 +119,7 @@ const routesMap = [
 				meta:{
 					title:'图标',
 					icon:'logo-facebook',
-					rules:['admin']
+					rules:['editor']
 				},
 				component: () => import(/* webpackChunkName: "icons" */ '@/views/admin/components/icons/icons.vue')
 			}
@@ -162,7 +162,7 @@ const routesMap = [
 				meta:{
 					title:'键盘图表',
 					icon:true,
-					rules:['admin','editor'],
+					rules:['admin'],
 					hiddenMenu:false
 				},
 				component: () => import(/* webpackChunkName: "chartKeyboard" */ '@/views/admin/components/charts/keyboard.vue')

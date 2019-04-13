@@ -1,5 +1,6 @@
 import axios from 'axios'
 import config from '@/config'
+import store from '@/store/index.js'
 
 class HttpRequest{
 	constructor(baseUrl = config.baseUrl){
@@ -45,6 +46,11 @@ class HttpRequest{
 	}
 	// 请求
 	request(options){
+		// 设置请求头 token
+		const userInfo = store.getters.userInfo;
+		if (userInfo && userInfo.token) {
+			options.headers["token"] = userInfo.token;
+		}
 		// 创建 axios 实例
 		const instance = axios.create();
 		options = Object.assign(this.getInsideConfig(),options);

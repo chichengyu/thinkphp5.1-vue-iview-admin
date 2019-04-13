@@ -5,5 +5,5 @@ class TokenException extends BaseException
 {
 	protected $code = 401;
 	protected $msg 	= 'Token invalid OR expired';
-	protected $errorCode = 20001;
+	protected $errorCode = 401;
 }

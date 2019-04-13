@@ -1,6 +1,6 @@
 import types from './types.js'
-import {getSiderAuth} from '@/api/admin/sider.js'
-import {getUserInfo} from '@/api/admin/user.js'
+// import {getSiderAuth} from '@/api/admin/sider.js'
+// import {getUserInfo} from '@/api/admin/user.js'
 import {routesMap} from '@/router/admin.routes.js'
 
 // 递归筛选路由
@@ -103,29 +103,42 @@ const actions = {
 	// 	});
 	// }
 	// 方法二 获取用户信息
-	getUserInfo ({commit}) {
+	getUserInfo ({commit},userInfo) {
 		return new Promise((resolve,reject) => {
-			getUserInfo().then(userInfo => {
-				if (userInfo.code == 401) {
-					reject(new Error('token valied')); 
+			// getUserInfo().then(userInfo => {
+			// 	if (userInfo.code == 401) {
+			// 		reject(new Error('token valied')); 
+			// 	} else {
+			// 		const data = userInfo.data;
+			// 		if (data.roles && data.roles.length > 0) {
+			// 			commit(types.SET_RULES,userInfo.data.roles);
+			// 		} else {
+			// 			reject('getInfo: roles must be a non-null array !')
+			// 		}
+			// 		resolve(userInfo);
+			// 	}
+			// }).catch(error => {
+			// 	console.log('getUserInfo',error);
+			// 	reject(error);
+			// });
+			try {
+				const roles = userInfo.roles;
+				if (roles && userInfo.roles.length > 0) {
+					Array.isArray(roles)||(userInfo.roles = [roles]);
+					commit(types.SET_RULES,userInfo.roles);
 				} else {
-					const data = userInfo.data;
-					if (data.roles && data.roles.length > 0) {
-						commit(types.SET_RULES,userInfo.data.roles);
-					} else {
-						reject('getInfo: roles must be a non-null array !')
-					}
-					resolve(userInfo);
+					reject('getInfo: roles must be a non-null array !')
 				}
-			}).catch(error => {
+				resolve(userInfo);
+			} catch(e) {
 				console.log('getUserInfo',error);
 				reject(error);
-			});
+			}
 		});
 	},
 	// 方法二过滤 左侧菜单路由
 	concatRlues ({commit},roles) {
-		roles = roles.data.roles;
+		roles = roles.roles;
 		return new Promise((resolve,reject) => {
 			try {
 			 	let routerList = [];
