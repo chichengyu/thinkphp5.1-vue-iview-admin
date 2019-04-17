@@ -126,6 +126,7 @@ const actions = {
 				if (roles && userInfo.roles.length > 0) {
 					Array.isArray(roles)||(userInfo.roles = [roles]);
 					commit(types.SET_RULES,userInfo.roles);
+					commit(types.SET_USER,userInfo);
 				} else {
 					reject('getInfo: roles must be a non-null array !')
 				}
