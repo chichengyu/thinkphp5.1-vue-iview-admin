@@ -53,7 +53,7 @@ router.beforeEach((to,from,next) => {
 		if (isLogin) {
 			// 是否获取过权限
 			if (!store.getters.isAuthToken) {
-				store.dispatch('getUserInfo',store.getters.userInfo).then(rlues => {
+				store.dispatch('getUserInfo',isLogin).then(rlues => {
 					store.dispatch('concatRlues',rlues).then(routes => {
 						// 将合并后的路由动态挂载到路由对象上
 						router.addRoutes(routes);
