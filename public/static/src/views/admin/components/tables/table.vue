@@ -176,7 +176,7 @@ export default {
         }
     },
     created () {
-        this.getTableData(currentPage,offset);
+        this.getTableData(currentPage,this.offset);
     },
     methods:{
         // 获取分页数据
@@ -203,12 +203,12 @@ export default {
         },
         showTableAddEvent () {
             this.showTableAdd = false;
-            this.getTableData(this.currentPage,offset);
+            this.getTableData(this.currentPage,this.offset);
         },
         // 抽屉显示隐藏
         showTableEditEvent () {
             this.showTableEdit = false;
-            this.getTableData(this.currentPage,offset);
+            this.getTableData(this.currentPage,this.offset);
         },
         // 截取数组中指定的项
         handleTableData (tableData,start,end) {
@@ -243,6 +243,6 @@ export default {
 }
 .tableData{
     position: relative;
-    height:100%;
+    /*height:100%;*/
 }
 </style>
