@@ -176,7 +176,7 @@ export default {
         }
     },
     created () {
-        this.getTableData(currentPage,this.offset);
+        this.getTableData(this.currentPage,this.offset);
     },
     methods:{
         // 获取分页数据
