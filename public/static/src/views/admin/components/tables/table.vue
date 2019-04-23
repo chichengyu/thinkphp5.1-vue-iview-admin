@@ -192,6 +192,7 @@ export default {
         // 点击分页切换数据
         getPageData (currentPage) {
             this.currentPage = currentPage;
+            // this.getTableData(currentPage,this.offset);
             const page = (currentPage - 1) * this.offset;
             this.pageData = this.handleTableData(this.tableData,page,this.offset);
         },
