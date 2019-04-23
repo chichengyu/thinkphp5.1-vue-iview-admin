@@ -176,13 +176,13 @@ export default {
         }
     },
     created () {
-        this.getTableData();
+        this.getTableData(currentPage,offset);
     },
     methods:{
         // 获取分页数据
-        getTableData () {
+        getTableData (currentPage,offset) {
             this.isShowLoading = true;
-            getTableData().then(res => {
+            getTableData(currentPage,offset).then(res => {
                 this.tableData = res.data.data;
                 this.total = res.data.total;
                 this.pageData = this.handleTableData(this.tableData,0,this.offset);
@@ -203,10 +203,12 @@ export default {
         },
         showTableAddEvent () {
             this.showTableAdd = false;
+            this.getTableData(this.currentPage,offset);
         },
         // 抽屉显示隐藏
         showTableEditEvent () {
             this.showTableEdit = false;
+            this.getTableData(this.currentPage,offset);
         },
         // 截取数组中指定的项
         handleTableData (tableData,start,end) {
