@@ -70,7 +70,7 @@ export default {
             showTableEdit:false, // 抽屉编辑
             delOkOrCancel:false,// 删除确认框
             currentTableData:null,
-            offset:12,// 每页显示的条数
+            offset:10,// 每页显示的条数
             columns: [
                 {
                     title:'ID',
