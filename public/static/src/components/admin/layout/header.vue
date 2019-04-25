@@ -30,6 +30,9 @@ export default {
 			this.$store.dispatch('clearLoginOut');
 			this.$Message.success('退出登陆!');
 			this.$router.push('/login');
+			setTimeout(() => {
+				window.location.reload();
+			})
 		}
 	}
 }
