@@ -93,6 +93,7 @@ npm run watch
 
 #### 使用说明
 ThinkPHP5.1、Vue、Iview的使用就不在此多说了，这里要说的是前后分离时的 **权限控制**，这里介绍两种方法，两种都需要前后配合  
+   至于，路由的具体添加请查看 **public/static/src/router/admin.routes.js** 的注释，有详细说明    
    + [Vue-Router的meta元信息](https://router.vuejs.org/zh/guide/advanced/meta.html)  
         在需要验证的路由中加入 meta 属性 ``` meta:{rules:['admin','editor']} ```，如下：
       ```
