@@ -1,5 +1,5 @@
 <template>
-    <div class="upload">
+    <div class="upload" style="display: inline-block;">
         <div class="demo-upload-list" v-for="item in fileImageList">
             <template v-if="item.status === 'finished'">
                 <img :src="item.url">
@@ -29,14 +29,26 @@
                 <Icon type="ios-camera" size="20"></Icon>
             </div>
         </Upload>
-        <Modal title="View Image" v-model="visible">
+        <Modal title="View Image" v-model="visible" :footer-hide="true">
             <img :src="imgName" v-if="visible" style="width: 100%">
         </Modal>
     </div>
 </template>
 <script>
+    import axios from '@/api/admin/index.js'
+
     export default {
-        props:['uploadUrl'],
+        // props:['uploadUrl'],// 上传图片
+        props:{
+            uploadUrl:{ // 上传图片地址
+                type:String,
+                required: true
+            },
+            delUploadImage:{ // 删除上传图片地址
+                type:String,
+                required: true
+            }
+        },
         data () {
             return {
                 defaultList: [],
@@ -54,6 +66,18 @@
             handleRemove (file) {
                 // const fileList = this.$refs.upload.fileList;
                 // this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+                axios.request({
+                    url:this.delUploadImage,
+                    method:'post',
+                    data:{path:file.response.path}
+                }).then(res => {
+                    if (res.data.code == 1){
+                        this.fileImageList.splice(this.fileImageList.indexOf(file),1);
+                        this.$Message.success('删除成功');
+                    }else {
+                        this.$Message.error('删除失败');
+                    }
+                })
                 this.fileImageList.splice(this.fileImageList.indexOf(file),1);
             },
             handleSuccess (res, file) {

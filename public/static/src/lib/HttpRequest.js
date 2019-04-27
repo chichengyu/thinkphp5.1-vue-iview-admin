@@ -46,14 +46,15 @@ class HttpRequest{
 	}
 	// 请求
 	request(options){
+		const configInit = this.getInsideConfig();
 		// 设置请求头 token
 		const userInfo = store.getters.userInfo;
 		if (userInfo && userInfo.token) {
-			options.headers["token"] = userInfo.token;
+			configInit.headers["token"] = userInfo.token;
 		}
 		// 创建 axios 实例
 		const instance = axios.create();
-		options = Object.assign(this.getInsideConfig(),options);
+		options = Object.assign(configInit,options);
 		this.interceptors(instance,options.url);
 		return instance(options);
 	}
