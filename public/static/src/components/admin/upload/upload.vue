@@ -66,6 +66,7 @@
             handleRemove (file) {
                 // const fileList = this.$refs.upload.fileList;
                 // this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+                // this.fileImageList.splice(this.fileImageList.indexOf(file),1);
                 axios.request({
                     url:this.delUploadImage,
                     method:'post',
@@ -78,7 +79,6 @@
                         this.$Message.error('删除失败');
                     }
                 })
-                this.fileImageList.splice(this.fileImageList.indexOf(file),1);
             },
             handleSuccess (res, file) {
                 if (res.code == 1){
