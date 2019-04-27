@@ -35,20 +35,10 @@
     </div>
 </template>
 <script>
-    import axios from '@/api/admin/index.js'
+    import {delUploadImage} from './delUploadImage.js'
 
     export default {
-        // props:['uploadUrl'],// 上传图片
-        props:{
-            uploadUrl:{ // 上传图片地址
-                type:String,
-                required: true
-            },
-            delUploadImage:{ // 删除上传图片地址
-                type:String,
-                required: true
-            }
-        },
+        props:['uploadUrl'],
         data () {
             return {
                 defaultList: [],
@@ -64,14 +54,7 @@
                 this.visible = true;
             },
             handleRemove (file) {
-                // const fileList = this.$refs.upload.fileList;
-                // this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-                // this.fileImageList.splice(this.fileImageList.indexOf(file),1);
-                axios.request({
-                    url:this.delUploadImage,
-                    method:'post',
-                    data:{path:file.response.path}
-                }).then(res => {
+                delUploadImage(file.response.path).then(res => {
                     if (res.data.code == 1){
                         this.fileImageList.splice(this.fileImageList.indexOf(file),1);
                         this.$Message.success('删除成功');
@@ -81,6 +64,7 @@
                 })
             },
             handleSuccess (res, file) {
+                this.fileImageList.length = 0;
                 if (res.code == 1){
                     file.url = res.ivew_path;
                     file.name = file.name;
