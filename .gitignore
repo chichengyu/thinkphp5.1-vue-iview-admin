@@ -1,5 +1,6 @@
 .idea
 composer.lock
 *.log
+thinkphp
 node_modules
 vendor_dll_manifest.json
