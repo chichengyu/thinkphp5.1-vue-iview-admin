@@ -170,6 +170,7 @@
     z-index: 0;
 }
 .toolbar {
+	flex-wrap: wrap;
     border: 1px solid #ccc;
 }
 .text {
