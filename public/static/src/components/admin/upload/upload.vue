@@ -23,6 +23,8 @@
                 :on-exceeded-size="handleMaxSize"
                 :before-upload="handleBeforeUpload"
                 type="drag"
+                :multiple="isUploades"
+                :headers="{token:this.$store.getters.userInfo.token}"
                 :action="uploadUrl"
                 style="display: inline-block;width:58px;">
             <div style="width: 58px;height:58px;line-height: 58px;">
@@ -38,14 +40,24 @@
     import {delUploadImage} from './delUploadImage.js'
 
     export default {
-        props:['uploadUrl'],
+        props:{
+            uploadUrl:{
+                type:String,
+                default:''
+            },
+            isUploades:{// 是否多张上传
+                type:Boolean,
+                default: false
+            }
+        },
         data () {
             return {
                 defaultList: [],
                 imgName: '',
                 visible: false,
                 uploadList: [],
-                fileImageList:[]
+                fileImageList:[],
+                currentUrl:null,// 当前上传的图片路径
             }
         },
         methods: {
@@ -54,26 +66,29 @@
                 this.visible = true;
             },
             handleRemove (file) {
-                delUploadImage(file.response.path).then(res => {
-                    if (res.data.code == 1){
-                        this.fileImageList.splice(this.fileImageList.indexOf(file),1);
-                        this.$Message.success('删除成功');
-                    }else {
-                        this.$Message.error('删除失败');
-                    }
-                })
+                this.fileImageList.splice(this.fileImageList.indexOf(file),1);
+                this.del(file,true);
             },
             handleSuccess (res, file) {
-                this.fileImageList.length = 0;
+                if (!this.isUploades){// 单上传，显示当前上传的并删除已上传的图片
+                    this.fileImageList.length = 0;
+                    this.currentUrl && this.del(this.currentUrl);
+                }
+                if (res.code == 401){
+                    this.$Message.error(res.msg);
+                }
                 if (res.code == 1){
                     file.url = res.ivew_path;
                     file.name = file.name;
-                    this.fileImageList.push(file)
+                    this.fileImageList.push(file);
                     this.$emit('changeImageUrl',res.path);
+                    this.currentUrl = file;
+                    this.$Message.success('上传成功');
                 }
             },
             delImageUlr(){
-                this.fileImageList = [];
+                // this.fileImageList = [];
+                this.$refs.upload.clearFiles();
             },
             handleFormatError (file) {
                 this.$Notice.warning({
@@ -87,7 +102,7 @@
                     desc: 'File  ' + file.name + ' is too large, no more than 2M.'
                 });
             },
-            handleBeforeUpload () {
+            handleBeforeUpload (file) {
                 const check = this.uploadList.length < 5;
                 if (!check) {
                     this.$Notice.warning({
@@ -95,45 +110,55 @@
                     });
                 }
                 return check;
+            },
+            // del 删除图片
+            del (file,flag=false) {
+                delUploadImage(file.response.path).then(res => {
+                    if (res.data.code == 1){
+                        flag && this.$Message.success(res.data.msg);
+                    }else {
+                        this.$Message.error(res.data.msg);
+                    }
+                });
             }
         }
     }
 </script>
-<style scoped>
-    .demo-upload-list{
-        display: inline-block;
-        width: 60px;
-        height: 60px;
-        text-align: center;
-        line-height: 60px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        overflow: hidden;
-        background: #fff;
-        position: relative;
-        box-shadow: 0 1px 1px rgba(0,0,0,.2);
-        margin-right: 4px;
-    }
-    .demo-upload-list img{
-        width: 100%;
-        height: 100%;
-    }
-    .demo-upload-list-cover{
-        display: none;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0,0,0,.6);
-    }
-    .demo-upload-list:hover .demo-upload-list-cover{
-        display: block;
-    }
-    .demo-upload-list-cover i{
-        color: #fff;
-        font-size: 20px;
-        cursor: pointer;
-        margin: 0 2px;
-    }
+<style lang="css" scoped>
+.demo-upload-list{
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0,0,0,.2);
+    margin-right: 4px;
+}
+.demo-upload-list img{
+    width: 100%;
+    height: 100%;
+}
+.demo-upload-list-cover{
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,.6);
+}
+.demo-upload-list:hover .demo-upload-list-cover{
+    display: block;
+}
+.demo-upload-list-cover i{
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 2px;
+}
 </style>
