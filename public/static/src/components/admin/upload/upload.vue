@@ -113,9 +113,17 @@
             },
             // del 删除图片
             del (file,flag=false) {
-                delUploadImage(file.response.path).then(res => {
+                let path = file.response.path;
+                delUploadImage(path).then(res => {
                     if (res.data.code == 1){
-                        flag && this.$Message.success(res.data.msg);
+                        if (flag) {
+                            if (this.isUploades){// 删除多上传图片
+                                this.$emit('changeImageUrl',path,true);
+                            }else {
+                                this.$emit('changeImageUrl','');
+                            }
+                            this.$Message.success(res.data.msg);
+                        }
                     }else {
                         this.$Message.error(res.data.msg);
                     }
