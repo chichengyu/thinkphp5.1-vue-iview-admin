@@ -87,8 +87,8 @@
                 }
             },
             delImageUlr(){
-                // this.fileImageList = [];
-                this.$refs.upload.clearFiles();
+                this.fileImageList = [];
+                // this.$refs.upload.clearFiles();
             },
             handleFormatError (file) {
                 this.$Notice.warning({
