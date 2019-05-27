@@ -48,6 +48,10 @@
             isUploades:{// 是否多张上传
                 type:Boolean,
                 default: false
+            },
+            isEdit:{// 是否是编辑操作时上传单张图片
+                type:Boolean,
+                default: false
             }
         },
         data () {
@@ -72,7 +76,7 @@
             handleSuccess (res, file) {
                 if (!this.isUploades){// 单上传，显示当前上传的并删除已上传的图片
                     this.fileImageList.length = 0;
-                    this.currentUrl && this.del(this.currentUrl);
+                    this.isEdit && this.currentUrl && this.del(this.currentUrl);
                 }
                 if (res.code == 401){
                     this.$Message.error(res.msg);
