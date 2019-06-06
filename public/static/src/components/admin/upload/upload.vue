@@ -1,7 +1,7 @@
 <template>
     <div class="upload" style="display: inline-block;">
-        <div class="demo-upload-list" v-for="item in fileImageList">
-            <template v-if="item.status === 'finished'">
+        <div class="demo-upload-list" v-if="fileImageList.length" v-for="item in fileImageList">
+            <template v-if="(item.status === 'finished')||fileImageList.length">
                 <img :src="item.url">
                 <div class="demo-upload-list-cover">
                     <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
@@ -49,10 +49,7 @@
                 type:Boolean,
                 default: false
             },
-            isEdit:{// 是否是编辑操作时上传单张图片
-                type:Boolean,
-                default: false
-            }
+            preivewImageList:[String,Array],
         },
         data () {
             return {
@@ -64,19 +61,41 @@
                 currentUrl:null,// 当前上传的图片路径
             }
         },
+        watch:{
+            preivewImageList(val){
+                let type = typeof val;
+                if (type == 'string'){
+                    this.fileImageList = [{url:this.preivewImageList}];
+                }else if (type == 'object'){
+                    let arr = [];
+                    for (let key in this.preivewImageList) {
+                        arr.push({url:this.preivewImageList[key]});
+                    }
+                    this.fileImageList = arr;
+                }
+            },
+        },
         methods: {
             handleView (name) {
                 this.imgName = name;
                 this.visible = true;
             },
             handleRemove (file) {
-                this.fileImageList.splice(this.fileImageList.indexOf(file),1);
                 this.del(file,true);
+                // 单上传编辑有问题  判斷完美解決
+                if (this.isUploades){
+                    this.fileImageList.splice(this.fileImageList.indexOf(file),1);
+                } else {
+                    setTimeout(() => {
+                        this.fileImageList.splice(this.fileImageList.indexOf(file),1);
+                    },300)
+                }
             },
             handleSuccess (res, file) {
                 if (!this.isUploades){// 单上传，显示当前上传的并删除已上传的图片
                     this.fileImageList.length = 0;
-                    this.isEdit && this.currentUrl && this.del(this.currentUrl);
+                    // this.fileImageList.length && this.fileImageList.splice(this.fileImageList.length-1,1);
+                    // this.isEdit && this.currentUrl && this.del(this.currentUrl);
                 }
                 if (res.code == 401){
                     this.$Message.error(res.msg);
@@ -86,10 +105,11 @@
                     file.name = file.name;
                     this.fileImageList.push(file);
                     this.$emit('changeImageUrl',res.path);
-                    this.currentUrl = file;
+                    // this.currentUrl = file;
                     this.$Message.success('上传成功');
                 }
             },
+            // 添加成功后清空上传列表，编辑则不清空上传列表
             delImageUlr(){
                 this.fileImageList = [];
                 // this.$refs.upload.clearFiles();
@@ -117,7 +137,13 @@
             },
             // del 删除图片
             del (file,flag=false) {
-                let path = file.response.path;
+                // let path = file.response.path;
+                let path = '';
+                if (file.response && file.response.path) {
+                    path = file.response.path;
+                }else {
+                    path = file.url;
+                }
                 delUploadImage(path).then(res => {
                     if (res.data.code == 1){
                         if (flag) {
