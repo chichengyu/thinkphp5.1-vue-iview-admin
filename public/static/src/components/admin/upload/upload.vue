@@ -58,7 +58,7 @@
                 visible: false,
                 uploadList: [],
                 fileImageList:[],
-                currentUrl:null,// 当前上传的图片路径
+                // currentUrl:null,// 当前上传的图片路径
             }
         },
         watch:{
