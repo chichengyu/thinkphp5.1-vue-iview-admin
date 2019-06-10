@@ -38,6 +38,10 @@
                 type: Boolean,
                 default: false
             },
+            isdisable:{// 是否启用编辑器
+                type: Boolean,
+                default: true
+            },
             debug:{// debug模式
                 type:Boolean,
                 default: false
@@ -156,7 +160,8 @@
                 }
                 // 创建富文本编辑器
                 this.editor.create();
-
+                // 是否开启编辑功能(一定要放在创建之后，否则报错)
+                this.editor.$textElem.attr('contenteditable', this.isdisable);
             }
         }
     }
