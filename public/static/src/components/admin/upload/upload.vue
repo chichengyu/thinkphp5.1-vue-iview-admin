@@ -49,7 +49,7 @@
                 type:Boolean,
                 default: false
             },
-            preivewImageList:[String,Array],
+            preivewImageList:[String,Array],// 图片url数组 或 一个图片url字符串
         },
         data () {
             return {
