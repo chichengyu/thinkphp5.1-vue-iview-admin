@@ -35,16 +35,18 @@ const hasAccess = (route,roles) => {
 }
 // 方法二 递归筛选路由
 const getAccessRoutes = (routesMap,roles) => {
-	return routesMap.filter(item => {	
+	let arr = routesMap.filter(item => {	
 		if (hasAccess({...item},roles)) {
 			if (item.children) {
 				item.children = getAccessRoutes(item.children,roles);
 			}
 			return true;
 		} else {
-			return false;	
+			return false;
 		}
 	});
+	arr.push(routesMap.pop());
+	return arr;
 }
 
 const actions = {
