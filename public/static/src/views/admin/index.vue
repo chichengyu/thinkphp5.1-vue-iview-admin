@@ -74,7 +74,6 @@
 <script>
 import FadeIn from '@/components/admin/fadeIn/FadeIn.vue'
 import HeaderRight from '@/components/admin/layout/header.vue'
-import { getSiderList } from '@/api/admin/sider.js'
 
 export default {
     name:'layout',
