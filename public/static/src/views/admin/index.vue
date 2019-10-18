@@ -74,6 +74,7 @@
 <script>
 import FadeIn from '@/components/admin/fadeIn/FadeIn.vue'
 import HeaderRight from '@/components/admin/layout/header.vue'
+import { getSiderList } from '@/api/admin/sider.js'
 
 export default {
     name:'layout',
@@ -117,13 +118,40 @@ export default {
         },
     },
     beforeCreate () {
-        this.$router.push('/index');
+        let first = this.$store.getters.siderList;
+        let url  = '/401';
+        if (first.length > 0){
+            first = first[0];
+            if(first.children){
+                url = first.children[0].path;
+            }else {
+                url = first.path;
+            }
+        }
+        this.$router.push(url);// 登陆成功默认跳转地址
     },
     created () {
         //this.$store.dispatch('setSiderList',res.data.siderList);
         this.siderList = this.$store.getters.siderList;
         setTimeout(() => {
-            this.linkClassActive = this.siderList[0].name;
+            if (this.siderList){
+                let first = this.siderList[0];
+                if (this.siderList[0].children){
+                    first = this.siderList[0].children[0];
+                    this.siderList[0].children[0].tabBtnActive = true;
+                    this.currentLocal[0] = this.siderList[0].name;
+                    this.currentLocal[1] = first.name;
+                }else {
+                    first = this.siderList[0];
+                    this.siderList[0].tabBtnActive = true;
+                    this.currentLocal[0] = first.name;
+                }
+                this.linkClassActive = first.name;
+                this.currentContentTitle = first.name;
+                this.siderNameList[0] = first;
+            }else{
+                this.$Message.error('没有权限');
+            }
         });
     },
     methods: {
