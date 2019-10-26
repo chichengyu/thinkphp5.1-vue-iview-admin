@@ -2,7 +2,7 @@
     <div class="layout">
         <Layout>
             <Sider v-if='siderList' ref="side" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
-                <Menu :active-name="linkClassActive" theme="dark" width="auto" :class="menuitemClasses">
+                <Menu :active-name="linkClassActive" theme="dark" width="auto" :class="menuitemClasses" :open-names="[this.siderList[0].name]">
                     <template v-for='(menu,key) in siderList'>
                         <router-link :to='menu.path' v-if='!menu.children'>
                             <MenuItem @click.native='menuClickEvent(menu.name)' :name="menu.name" :key='key'>
